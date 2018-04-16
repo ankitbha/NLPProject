@@ -1,10 +1,39 @@
 import sys
 from collections import defaultdict
 import numpy
-
 import re
 
+from nltk.stem import PorterStemmer
 from nltk.tokenize import TweetTokenizer
+from nltk.corpus import stopwords
+from nltk import ngrams
+# from nltk.tokenize import sent_tokenize, word_tokenize
+
+
+stop_words = stopwords.words('english')
+
+
+
+def stopword_removal(list1):
+	list1 = [word for word in list1 if word not in stop_words]
+	return list1
+
+def stemming(list1):
+	ps = PorterStemmer()
+	list2 = []
+	for i in list1:
+		list2.append(ps.stem(i))
+	list3 = set(list2)	
+	list4 = []
+	for i in list3:
+		list4.append(i)
+	return list4	
+
+def ngrams_list(list1,n):
+	list1=[]
+	for vec in ngrams(list1,n):
+		list1.append(vec)	
+	return list1
 
 # def normalize_word(word):
 #     temp = word
@@ -314,6 +343,14 @@ def pad_sequence_1d(sequences,flag_pad='pre'):
 		Y.append(temp)
 	return Y
 		
+# def adhoc(filename, word_file_path, split_word_path, emoji_file_path, normalize_text=False, split_hashtag=False,ignore_profiles=False,lowercase=True, replace_emoji=True, n_grams=None, at_character=False):
+# 	split_word_list = load_split_word(split_word_path)
+# 	word_list = InitializeWords(word_file_path)
+# 	emoji_dict = load_unicode_mapping(emoji_file_path)
+# 	abbreviation_dict = load_abbreviation()
+# 	lines = open(filename, 'r').readlines()	
+# 	data = parsedata(lines, word_list, split_word_list, emoji_dict, abbreviation_dict, normalize_text=normalize_text,split_hashtag=split_hashtag,ignore_profiles=ignore_profiles,lowercase=lowercase,replace_emoji=replace_emoji,n_grams=n_grams, at_character=at_character)
+# 	dict1={}
 
 
 
