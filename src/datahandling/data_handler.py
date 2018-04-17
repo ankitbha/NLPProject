@@ -1,4 +1,7 @@
+import os
 import sys
+sys.path.append('../')
+
 from collections import defaultdict
 import numpy
 import re
@@ -88,17 +91,17 @@ def load_split_word(split_word_file_path):
 	hashtagged_word_split_dict=defaultdict()
 
 	with open(split_word_file_path,'r') as file:
-		lines = file.splitlines()
+		lines = file.readlines()
 		for line in lines:
 			tokens = line.lower()
 			tokens = tokens.strip()
 			tokens = tokens.split('\t')
-			if(length(tokens)!=1):
+			if(len(tokens)!=1):
 				hashtagged_word_split_dict[tokens[0]] = tokens[1]
 	
 	return hashtagged_word_split_dict						
 
-def load_abbreviation(path = './abbreviations.txt'):
+def load_abbreviation(path = '../../datasets/abbreviations.txt'):
 	abbreviation_dict = defaultdict()
 	with open(path) as file:
 		lines = file.readlines()
@@ -353,4 +356,20 @@ def pad_sequence_1d(sequences,flag_pad='pre'):
 # 	dict1={}
 
 
+basepath = "../.."
+train_file = basepath + '/datasets/train/Train_v1.txt'
+# validation_file = basepath + '/datasets/dev/Dev_v1.txt'
+test_file = basepath + '/datasets/test/Test_v1.txt'
+word_file_path = basepath + '/datasets/word_list_freq.txt'
+split_word_path = basepath + '/datasets/word_split.txt'
+emoji_file_path = basepath + '/datasets/emoji_unicode_names_final.txt'
 
+    # output_file = basepath + '/datasets/text_model/TestResults.txt'
+    # model_file = basepath + '/datasets/text_model/weights/'
+# vocab_file_path = basepath + '/datasets/text_model/vocab_list.txt'
+d=loaddata(train_file, word_file_path, split_word_path, emoji_file_path)
+
+
+
+
+   
