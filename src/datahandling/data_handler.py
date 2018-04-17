@@ -101,7 +101,7 @@ def load_split_word(split_word_file_path):
 	
 	return hashtagged_word_split_dict						
 
-def load_abbreviation(path = os.getcwd()[:os.getcwd().rfind('/')] + '/project/data/abbreviations.txt'):
+def load_abbreviation(path = os.getcwd()[:os.getcwd().rfind('/')] + '/../datasets/abbreviations.txt'):
 	abbreviation_dict = defaultdict()
 	with open(path) as file:
 		lines = file.readlines()
@@ -141,7 +141,7 @@ def split_hashtags(term, wordlist, split_word_list):
 def filter_text(text, word_list, split_word_list, emoji_dict, abbreviation_dict, normalize_text=False,split_hastag=False,ignore_profiles=False,replace_emoji=True):
 	filtered_text=[]
 
-	filter_list = ['/', '-', '=', '+', '…', '\\', '(', ')', '&', ':']
+	# filter_list = ['/', '-', '=', '+', '…', '\\', '(', ')', '&', ':']
 
 	for t in text:
 		word_tokens = None
@@ -161,7 +161,14 @@ def filter_text(text, word_list, split_word_list, emoji_dict, abbreviation_dict,
 
 		if(replace_emoji): #replacing emoji with its unicode description
 			if(t in emoji_dict):
-				t=emoji_dict.get(t).split('_')
+				# t = emoji_dict.get(t).split('_')
+				# comment next 6 lines to make it the same as before --- Ankit
+				t=emoji_dict.get(t)
+				temp = []
+				temp.append(t)
+				t = temp
+				for i in range(len(t)):
+					t[i] = 'e_' + t[i]
 				filtered_text.extend(t)
 				continue
 
@@ -395,16 +402,17 @@ vocab_file_path = basepath + '/data/vocab_list.txt'
 '''
 
 basepath = os.getcwd()[:os.getcwd().rfind('/')]
-train_file = basepath + '/project/data/Train_v1.txt'
-validation_file = basepath + '/project/data/Dev_v1.txt'
-test_file = basepath + '/project/data/Test_v1.txt'
-word_file_path = basepath + '/project/data/word_list_freq.txt'
-split_word_path = basepath + '/project/data/word_split.txt'
-emoji_file_path = basepath + '/project/data/emoji_unicode_names_final.txt'
+train_file = basepath + '/../datasets/train/Train_v1.txt'
+validation_file = basepath + '/../datasets/Dev_v1.txt'
+test_file = basepath + '/../datasets/test/Test_v1.txt'
+word_file_path = basepath + '/../datasets/word_list_freq.txt'
+split_word_path = basepath + '/../datasets/word_split.txt'
+emoji_file_path = basepath + '/../datasets/emoji_unicode_names_final.txt'
 
-output_file = basepath + '/project/data/TestResults.txt'
-model_file = basepath + '/project/data/'
-vocab_file_path = basepath + '/project/data/vocab_list.txt'
+output_file = basepath + '/../datasets/TestResults.txt'
+model_file = basepath + '/../datasets/'
+vocab_file_path = basepath + '/../datasets/vocab_list.txt'
+# print(basepath)
 
 #print('Loading Training Data...')
 #d=loaddata(train_file, word_file_path, split_word_path, emoji_file_path)
