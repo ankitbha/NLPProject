@@ -72,7 +72,7 @@ def load_unicode_mapping(path): #dictionary with emoticon and its meaning.
 def InitializeWords(word_file_path):
 	word_dictionary = defaultdict()
 
-	with open(path, 'r') as file:
+	with open(word_file_path, 'r') as file:
 		lines = file.readlines()
 		for line in lines:
 			tokens = line.strip()
@@ -101,7 +101,7 @@ def load_split_word(split_word_file_path):
 	
 	return hashtagged_word_split_dict						
 
-def load_abbreviation(path = '../../datasets/abbreviations.txt'):
+def load_abbreviation(path = os.getcwd()[:os.getcwd().rfind('/')] + '/project/data/abbreviations.txt'):
 	abbreviation_dict = defaultdict()
 	with open(path) as file:
 		lines = file.readlines()
@@ -310,7 +310,7 @@ def vectorize_word_dimension(data, vocab, drop_dimension_index=None):
 		context_vec=[]
 		for token in tokenlist:
 			if(token in vocab):
-				vec.append(vocab[words])
+				vec.append(vocab[token])
 			else:
 				vec.append(0)
 
@@ -320,12 +320,12 @@ def vectorize_word_dimension(data, vocab, drop_dimension_index=None):
 	return numpy.asarray(X), numpy.asarray(Y) 	
 
 
-def pad_sequence_1d(sequences,flag_pad='pre'):
+'''def pad_sequence_1d(sequences,flag_pad='pre',maxlen=None):
 	
 	X=[vectors for vectors in sequences]	
 	
-	maxlen = max([len(v) for v in X])
-	# X=numpy.zeros(maxlen)
+	#maxlen = max([len(v) for v in X])
+	X=numpy.zeros(maxlen)
 	Y=[]
 
 	for i,v in enumerate(X):
@@ -344,7 +344,31 @@ def pad_sequence_1d(sequences,flag_pad='pre'):
 		else:
 			temp = v		
 		Y.append(temp)
-	return Y
+	return numpy.asarray(Y)'''
+
+def pad_sequence_1d(sequences, maxlen=None, dtype='float32', padding='pre', truncating='pre', value=0.):
+    X = [vectors for vectors in sequences]
+
+    nb_samples = len(X)
+
+    x = (numpy.zeros((nb_samples, maxlen)) * value).astype(dtype)
+
+    for idx, s in enumerate(X):
+        if truncating == 'pre':
+            trunc = s[-maxlen:]
+        elif truncating == 'post':
+            trunc = s[:maxlen]
+        else:
+            raise ValueError("Truncating type '%s' not understood" % padding)
+
+        if padding == 'post':
+            x[idx, :len(trunc)] = trunc
+        elif padding == 'pre':
+            x[idx, -len(trunc):] = trunc
+        else:
+            raise ValueError("Padding type '%s' not understood" % padding)
+
+    return x
 		
 # def adhoc(filename, word_file_path, split_word_path, emoji_file_path, normalize_text=False, split_hashtag=False,ignore_profiles=False,lowercase=True, replace_emoji=True, n_grams=None, at_character=False):
 # 	split_word_list = load_split_word(split_word_path)
@@ -355,21 +379,34 @@ def pad_sequence_1d(sequences,flag_pad='pre'):
 # 	data = parsedata(lines, word_list, split_word_list, emoji_dict, abbreviation_dict, normalize_text=normalize_text,split_hashtag=split_hashtag,ignore_profiles=ignore_profiles,lowercase=lowercase,replace_emoji=replace_emoji,n_grams=n_grams, at_character=at_character)
 # 	dict1={}
 
+'''
+basepath = os.getcwd()[:os.getcwd().rfind('/')]
+train_file = basepath + '/data/Train_v1.txt'
+validation_file = basepath + '/data/Dev_v1.txt'
+test_file = basepath + '/data/Test_v1.txt'
+word_file_path = basepath + '/data/word_list_freq.txt'
+split_word_path = basepath + '/data/word_split.txt'
+emoji_file_path = basepath + '/data/emoji_unicode_names_final.txt'
 
-basepath = "../.."
-train_file = basepath + '/datasets/train/Train_v1.txt'
-# validation_file = basepath + '/datasets/dev/Dev_v1.txt'
-test_file = basepath + '/datasets/test/Test_v1.txt'
-word_file_path = basepath + '/datasets/word_list_freq.txt'
-split_word_path = basepath + '/datasets/word_split.txt'
-emoji_file_path = basepath + '/datasets/emoji_unicode_names_final.txt'
+output_file = basepath + '/data/TestResults.txt'
+model_file = basepath + '/data/'
+vocab_file_path = basepath + '/data/vocab_list.txt'
 
-    # output_file = basepath + '/datasets/text_model/TestResults.txt'
-    # model_file = basepath + '/datasets/text_model/weights/'
-# vocab_file_path = basepath + '/datasets/text_model/vocab_list.txt'
-d=loaddata(train_file, word_file_path, split_word_path, emoji_file_path)
+'''
 
+basepath = os.getcwd()[:os.getcwd().rfind('/')]
+train_file = basepath + '/project/data/Train_v1.txt'
+validation_file = basepath + '/project/data/Dev_v1.txt'
+test_file = basepath + '/project/data/Test_v1.txt'
+word_file_path = basepath + '/project/data/word_list_freq.txt'
+split_word_path = basepath + '/project/data/word_split.txt'
+emoji_file_path = basepath + '/project/data/emoji_unicode_names_final.txt'
 
+output_file = basepath + '/project/data/TestResults.txt'
+model_file = basepath + '/project/data/'
+vocab_file_path = basepath + '/project/data/vocab_list.txt'
 
-
+#print('Loading Training Data...')
+#d=loaddata(train_file, word_file_path, split_word_path, emoji_file_path)
+#print('Training data loading finished...')
    
