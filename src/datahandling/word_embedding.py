@@ -166,9 +166,9 @@ model = KeyedVectors.load_word2vec_format(basepath+'/datahandling/GoogleNews-vec
 # glove2word2vec(glove_input_file=basepath+"/datahandling/glove.6B.300d.txt", word2vec_output_file=basepath+"/datahandling/gensim_glove_vectors.txt")
 # model_g = KeyedVectors.load_word2vec_format(basepath+'/datahandling/gensim_glove_vectors.txt', binary=False)
 
-print('Loading Training Data...')
-d=dh.loaddata(train_file, word_file_path, split_word_path, emoji_file_path)
-print('Training data loading finished...')
+# print('Loading Training Data...')
+# d=dh.loaddata(train_file, word_file_path, split_word_path, emoji_file_path)
+# print('Training data loading finished...')
 
 # d[index][1] = label, d[index][2] = largetext in list form
 

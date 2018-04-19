@@ -5,11 +5,12 @@ sys.path.append('../')
 from collections import defaultdict
 import numpy
 import re
-
+import nltk
 from nltk.stem import PorterStemmer
 from nltk.tokenize import TweetTokenizer
 from nltk.corpus import stopwords
 from nltk import ngrams
+from nltk import word_tokenize
 # from nltk.tokenize import sent_tokenize, word_tokenize
 
 
